@@ -1,183 +1,278 @@
 import ui
 import csv
-import os.path
 from copy import copy, deepcopy
 from datetime import *
 from download_from_gss import download_from_gss
 
-#prottype
 # String to
-def str2hm(s): # hours, minutes list
-	return [ int(t) for t in s.split(':') ]
+def str2hm(s):
+    """
+    # Parmas
+    - s (String): e.g "6:30"
 
-def str2time(s): # time
-	h,m = str2hm(s)
-	return time(h,m)
+    # Return
+    - hour (int): e.g. 6
+    - minute (int): e.g. 30
+    """
+    hour, minute = [ int(t) for t in s.split(':') ]
+    return hour, minute
 
-def str2dttm(s): # datetime
-  return datetime.combine(date.today(),str2time(s))
+def str2time(s):
+    """
+    String to time
+    # Params
+    - s (String): e.g "6:30"
 
-def str2tmdlt(s): # timedelta
-	h,m = str2hm(s)
-	return timedelta(hours = h, minutes = m)
+    # Return
+    - (datetime.time)
+    """
+    h,m = str2hm(s)
+    return time(h,m)
+
+def str2dttm(s):
+    """
+    String to datetime
+    # Params
+    - s (String): e.g "6:30"
+
+    # Return
+    - (datetime.datetime)
+    """
+    return datetime.combine(date.today(),str2time(s))
+
+def str2tmdlt(s):
+    """
+    String to timedelta
+    # Params
+    - s (String): e.g "6:30"
+
+    # Return
+    - (datetime.timedelta)
+    """
+    h,m = str2hm(s)
+    return timedelta(hours = h, minutes = m)
 
 
 # to String
-def time2str(t): # time
-	return time.strftimeん(t,'%H:%M')
+def time2str(t):
+    """
+    time to String
+    # Params
+    - (datetime.time)
+
+    # Return
+    - (String): e.g "6:30"
+    """
+    return time.strftime(t,'%H:%M')
 	
-def dttm2str(dttm): # datetime
-	return datetime.strftime(dttm,'%H:%M')
+def dttm2str(dttm):
+    """
+    datetime to String
+    # Params
+    - (datetime.datetime)
 
-def tmdlt2str(tmdlt): # timedelta
-	zero = datetime.combine(date.today(), time(0,0))
-	return dttm2str(zero+tmdlt)
+    # Return
+    - (String): e.g "6:30"
+    """
+    return datetime.strftime(dttm,'%H:%M')
 
-# schedule: tv_schedule(TableView).data_source.items (String list)
+def tmdlt2str(tmdlt):
+    """
+    timedelta to String
+    # Params
+    - (datetime.timedelta)
+
+    # Return
+    - (String): e.g "6:30"
+    """
+    zero = datetime.combine(date.today(), time(0,0))
+    return dttm2str(zero+tmdlt)
 
 class Event:
-	def __init__(self,name,drtn_str):
-		self.name = name 
-		# drtn_str: duration string	
-		if len(drtn_str) == 4:
-			drtn_str = '0' + drtn_str
-		self.drtn_str = drtn_str
-		# drtn_tmdlt: duration timedelta
-		self.drtn_tmdlt = str2tmdlt(drtn_str)
+    """
+    # Params
+    - name (str)
+    - drtn_str (str): duration
+    - drtn_tmdlt (datetime.timedelta): duration
+    """
+    def __init__(self,name,drtn_str):
+        self.name = name 
+        # drtn_str: duration string	
+        if len(drtn_str) == 4:
+                drtn_str = '0' + drtn_str
+        self.drtn_str = drtn_str
+        # drtn_tmdlt: duration timedelta
+        self.drtn_tmdlt = str2tmdlt(drtn_str)
 
-# eventlist to schedule
-# schedule: TableView.data_source.items (string list)
-def evls2sch(eventlist,currenttime):
-	schedule = []
-	nexttime = str2dttm(currenttime)
-	for event in eventlist:
-		#scheduel's row
-		row = dttm2str(nexttime) + ' | '
-		row += event.drtn_str + ' | '
-		row += event.name
-		nexttime += event.drtn_tmdlt
-		schedule.append(row)
-	return schedule
+def evls2sch(eventlist, currenttime):
+    """
+    eventlist to schedule
 
-# scheduel to eventlist
-# schedule: TableView.data_source.items (string list)
+    # Params
+    - eventlist (list of Event)
+    - currenttime (str): e.g. "6:30"
+    
+    # Return
+    - schedule (list of str): is stored as TableView.data_source.items
+    """
+    schedule = []
+    nexttime = str2dttm(currenttime)
+    for event in eventlist:
+        #scheduel's row
+        row = dttm2str(nexttime) + ' | '
+        row += event.drtn_str + ' | '
+        row += event.name
+        nexttime += event.drtn_tmdlt
+        schedule.append(row)
+    return schedule
+
 def sch2evls(schedule):
-	eventlist = []
-	for row in schedule:
-		drtn_str = row[8:13]
-		name = row[16:]
-		eventlist.append(Event(name,drtn_str))
-	return eventlist
+    """
+    eventlist to schedule
+
+    # Params
+    - schedule (list of str): is stored as TableView.data_source.items
+    
+    # Return
+    - eventlist (list of Event)
+    """
+    eventlist = []
+    for row in schedule:
+            drtn_str = row[8:13]
+            name = row[16:]
+            eventlist.append(Event(name,drtn_str))
+    return eventlist
 
 def store_csv(eventlist):
-	""" store eventlist as csv """
+    """
+    store eventlist as csv
+
+    # Params
+    - eventlist (list of Event)
+    - currenttime (str): e.g. "6:30"
+    """
 	
-	global csv_file, currenttime
-	F = open(csv_file,'w',encoding='utf-8')
-	writer = csv.writer(F, lineterminator='\n')
-	writer.writerow([currenttime])
-	writer.writerows([[e.drtn_str, e.name] for e in eventlist])
-	F.close()
+    global csv_file, currenttime
+    F = open(csv_file,'w',encoding='utf-8')
+    writer = csv.writer(F, lineterminator='\n')
+    writer.writerow([currenttime])
+    writer.writerows([[e.drtn_str, e.name] for e in eventlist])
+    F.close()
 
 def update_evls_from_sch(self):
-	""" Table View, tv_schedule's edit action
-	When deleting/rearranging schedule,
-		1. update eventlist
-		2. store eventlist as csv
-	`self` is tv_schedule.data_source.
-	"""
+    """ 
+    ACTION METHOD: tv_schedule (TableView)
 
-	# update eventlist
-	global eventlist
-	eventlist = sch2evls(self.items)
-	# store eventlist as csv
-	store_csv(eventlist=eventlist)
-	# reload tv_schedule
-	update_sch_from_evls(eventlist=eventlist)
+    When deleting/rearranging schedule,
+            1. update eventlist
+            2. store eventlist as csv
+
+    # Params
+    - self (tv_schedule.data_source): self.items is list of items (=schedule)
+    """
+
+    # update eventlist
+    global eventlist
+    eventlist = sch2evls(self.items)
+    # store eventlist as csv
+    store_csv(eventlist=eventlist)
+    # reload tv_schedule
+    update_sch_from_evls(eventlist=eventlist)
 
 def update_sch_from_evls(eventlist):
-	""" update schedule from eventlist, when eventlist changes
-	1. store eventlist as csv
-	2. update schedule from eventlist
-	"""
+    """
+    update schedule from eventlist
+    1. store eventlist as csv
+    2. update schedule from eventlist
+    """
 
-	global tv_schedule
-	# store eventlist as csv
-	store_csv(eventlist=eventlist)
-	# rewrite tv_schedule(table view) along with eventlist
-	tv_schedule.data_source.items = evls2sch(eventlist=eventlist, currenttime=currenttime)
-	tv_schedule.reload()
-
+    global tv_schedule
+    # store eventlist as csv
+    store_csv(eventlist=eventlist)
+    # rewrite tv_schedule(table view) along with eventlist
+    tv_schedule.data_source.items = evls2sch(eventlist=eventlist, currenttime=currenttime)
+    tv_schedule.reload()
 
 def send_event(self):
-	""" Button, bt_send's action
+    """
+    ACTION METHOD: bt_send (Button)
 
-	1. add an event to eventlist
-	2. update schedule from eventlist
-	3. reset text fields
-	"""
+    1. add an event to eventlist
+    2. update schedule from eventlist
+    3. reset text fields
+    """
 
-	# add an event to eventlist
-	global eventlist, tf_name, tf_duration, tv_schedule
-	name = tf_name.text
-	duration = tf_duration.text
-	eventlist.append(Event(name,duration))
-	# update schedule from eventlist
-	update_sch_from_evls(eventlist)
-	# reset text fields
-	tf_name.text, tf_duration.text = '',''
+    # add an event to eventlist
+    global eventlist, tf_name, tf_duration, tv_schedule
+    name = tf_name.text
+    duration = tf_duration.text
+    eventlist.append(Event(name,duration))
+    # update schedule from eventlist
+    update_sch_from_evls(eventlist)
+    # reset text fields
+    tf_name.text, tf_duration.text = '',''
 
 def invert_edit(self):
-	""" Button, bt_edit's action
-	Turn on/off edit mode.
-	"""
-	
-	global tv_schedule
-	tv_schedule.editing = not(tv_schedule.editing)
+    """
+    ACTION METHOD: bt_edit (Button)
+
+    Turn on/off edit mode.
+    """
+    
+    global tv_schedule
+    tv_schedule.editing = not(tv_schedule.editing)
 
 def set_bookmark(self):
-	""" Button, bt_bookmark's action
-	1. Download favrite schedule file (.csv).
-	2. Rewrite a.csv.
-	"""
-	global eventlist
-	download_from_gss()
-	load_csv_to_crtm_evls()
-	update_sch_from_evls(eventlist)
+    """
+    ACTION METHOD: bt_bookmark (Button)
+    
+    1. Download favrite csv_file
+    2. Rewrite csv_file
+    """
+    global eventlist
+    download_from_gss()
+    load_csv_to_crtm_evls()
+    update_sch_from_evls(eventlist)
 	
 def update_current(self):
-	""" TextField, tf_current's action
-	This updates current time from tf_current.
-	"""
+    """
+    ACTION METHOD: tf_current (TextField)
 
-	global tv_schedule, currenttime
-	currenttime = self.text
-	tv_schedule.data_source.items = evls2sch(eventlist=eventlist, currenttime=currenttime)
-	tv_schedule.reload()
+    update currenttime from tf_current.
+    """
+
+    global tv_schedule, currenttime
+    currenttime = self.text
+    tv_schedule.data_source.items = evls2sch(eventlist=eventlist, currenttime=currenttime)
+    tv_schedule.reload()
 
 def get_current(self):
-	""" Button, bt_get_current's action
-	This rewrites tf_current(TextField) as current time.
-	"""
+    """
+    ACTION METHOD: bt_get_current (Button)
 
-	global tf_current
-	# round minutes to 00 or 30
-	h, m = str2hm(dttm2str(datetime.now()))
-	if m < 15:
-		m = 0
-	elif m < 45:
-		m = 30
-	else:
-		h, m = h+1, 0
-	tf_current.text = tmdlt2str(timedelta(hours=h,minutes=m))
+    rewrites tf_current(TextField) as current time.
+    """
+
+    global tf_current
+    # round minutes to 00 or 30
+    h, m = str2hm(dttm2str(datetime.now()))
+    if m < 15:
+            m = 0
+    elif m < 45:
+            m = 30
+    else:
+            h, m = h+1, 0
+    tf_current.text = tmdlt2str(timedelta(hours=h,minutes=m))
 	
 def all_delete(self):
-	""" Button, bt_all_delete's action 
-	This delete all events from eventlist (changes eventlist as a empty list.)
-	"""
-	global eventlist
-	eventlist = []
-	update_sch_from_evls(eventlist=eventlist)
+    """
+    ACTION METHOD: bt_alldelete (Button)
+
+    delete all events from eventlist (changes eventlist as a empty list.)
+    """
+    global eventlist
+    eventlist = []
+    update_sch_from_evls(eventlist=eventlist)
 
 class TextFiledDelegate(object):
 	def textfield_did_begin_editing(self, textfield):
@@ -235,7 +330,7 @@ if __name__=='__main__':
 	schedule = copy(tv_schedule.data_source.items)
 
 	# set textfields' delegate
-	# Delegate is an obeject type attribute view have.
+	# Delegate is an obeject which type attribute view have.
 	# It has an SPECIAL ACTION method that you implement
 	# when you aren't satisfied with the timing of default view's action.
 	tf_current.delegate = TextFiledDelegate()

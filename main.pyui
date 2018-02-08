@@ -5,7 +5,7 @@
     "class" : "View",
     "nodes" : [
       {
-        "selected" : false,
+        "selected" : true,
         "frame" : "{{0, 40}, {270, 330}}",
         "class" : "TableView",
         "nodes" : [
@@ -29,7 +29,7 @@
         }
       },
       {
-        "selected" : true,
+        "selected" : false,
         "frame" : "{{0, 370}, {270, 110}}",
         "class" : "View",
         "nodes" : [
@@ -103,7 +103,7 @@
             }
           },
           {
-            "selected" : true,
+            "selected" : false,
             "frame" : "{{100, 10}, {46, 40}}",
             "class" : "Button",
             "nodes" : [
@@ -144,7 +144,7 @@
             }
           },
           {
-            "selected" : false,
+            "selected" : true,
             "frame" : "{{210, 10}, {46, 40}}",
             "class" : "Button",
             "nodes" : [
@@ -161,7 +161,7 @@
               "corner_radius" : 0,
               "border_color" : "RGBA(0.269663,0.269663,0.269663,1.000000)",
               "font_size" : 40,
-              "name" : "button1"
+              "name" : "bt_send"
             }
           }
         ],
@@ -218,9 +218,9 @@
     "attributes" : {
       "custom_class" : "",
       "enabled" : true,
-      "background_color" : "RGBA(1.000000,1.000000,1.000000,1.000000)",
       "tint_color" : "RGBA(0.000000,0.478000,1.000000,1.000000)",
       "border_color" : "RGBA(0.000000,0.000000,0.000000,1.000000)",
+      "background_color" : "RGBA(1.000000,1.000000,1.000000,1.000000)",
       "flex" : ""
     }
   }

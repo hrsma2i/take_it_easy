@@ -72,8 +72,8 @@ def sch2evls(schedule):
 def store_csv(eventlist):
 	""" store eventlist as csv """
 	
-	global filename, currenttime
-	F = open(filename,'w',encoding='utf-8')
+	global csv_file, currenttime
+	F = open(csv_file,'w',encoding='utf-8')
 	writer = csv.writer(F, lineterminator='\n')
 	writer.writerow([currenttime])
 	writer.writerows([[e.drtn_str, e.name] for e in eventlist])
@@ -208,7 +208,7 @@ class TextFiledDelegate(object):
 
 def load_csv_to_crtm_evls(csv_file="./schedule.csv"):
 	global eventlist
-	with open(filename,'r',encoding='utf-8') as f:
+	with open(csv_file,'r',encoding='utf-8') as f:
 		reader = csv.reader(f)
 		currenttime = next(reader)[0]
 		for row in reader:

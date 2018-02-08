@@ -1,0 +1,227 @@
+[
+  {
+    "selected" : false,
+    "frame" : "{{0, 0}, {270, 480}}",
+    "class" : "View",
+    "nodes" : [
+      {
+        "selected" : false,
+        "frame" : "{{0, 40}, {270, 330}}",
+        "class" : "TableView",
+        "nodes" : [
+
+        ],
+        "attributes" : {
+          "uuid" : "221A7EC4-63FB-4542-8F6D-638244C96730",
+          "flex" : "WH",
+          "background_color" : "RGBA(1.0, 1.0, 1.0, 1.0)",
+          "frame" : "{{35, 140}, {200, 200}}",
+          "data_source_items" : "",
+          "data_source_number_of_lines" : 1,
+          "data_source_edit_action" : "update_evls_from_sch",
+          "data_source_move_enabled" : true,
+          "data_source_delete_enabled" : true,
+          "data_source_font_size" : 18,
+          "row_height" : 44,
+          "class" : "TableView",
+          "name" : "tv_schedule",
+          "editing" : false
+        }
+      },
+      {
+        "selected" : true,
+        "frame" : "{{0, 370}, {270, 110}}",
+        "class" : "View",
+        "nodes" : [
+          {
+            "selected" : false,
+            "frame" : "{{10, 10}, {80, 40}}",
+            "class" : "TextField",
+            "nodes" : [
+
+            ],
+            "attributes" : {
+              "uuid" : "270CD32A-0470-4CCF-A200-EA3A59863DE2",
+              "font_size" : 17,
+              "frame" : "{{35, 34}, {200, 32}}",
+              "custom_attributes" : "{'action':update_current}",
+              "alignment" : "left",
+              "autocorrection_type" : "default",
+              "text" : "12:00",
+              "placeholder" : "current",
+              "font_name" : "<System>",
+              "spellchecking_type" : "default",
+              "class" : "TextField",
+              "name" : "tf_current",
+              "flex" : "RT"
+            }
+          },
+          {
+            "selected" : false,
+            "frame" : "{{10, 60}, {80, 40}}",
+            "class" : "TextField",
+            "nodes" : [
+
+            ],
+            "attributes" : {
+              "uuid" : "270CD32A-0470-4CCF-A200-EA3A59863DE2",
+              "font_size" : 17,
+              "frame" : "{{35, 34}, {200, 32}}",
+              "custom_attributes" : "",
+              "alignment" : "left",
+              "autocorrection_type" : "default",
+              "text" : "1:00",
+              "placeholder" : "duration",
+              "font_name" : "<System>",
+              "spellchecking_type" : "default",
+              "class" : "TextField",
+              "name" : "tf_duration",
+              "flex" : "RT"
+            }
+          },
+          {
+            "selected" : false,
+            "frame" : "{{100, 60}, {160, 40}}",
+            "class" : "TextField",
+            "nodes" : [
+
+            ],
+            "attributes" : {
+              "uuid" : "B9B1BD41-BE6E-4641-854C-9AC56DD9AA12",
+              "font_size" : 17,
+              "frame" : "{{35, 34}, {200, 32}}",
+              "custom_attributes" : "{'clear_button_mode':'while_editing'}",
+              "alignment" : "left",
+              "autocorrection_type" : "default",
+              "text" : "",
+              "placeholder" : "event",
+              "font_name" : "<System>",
+              "spellchecking_type" : "default",
+              "class" : "TextField",
+              "name" : "tf_name",
+              "flex" : "WT"
+            }
+          },
+          {
+            "selected" : true,
+            "frame" : "{{100, 10}, {46, 40}}",
+            "class" : "Button",
+            "nodes" : [
+
+            ],
+            "attributes" : {
+              "border_width" : 0,
+              "flex" : "WLRTB",
+              "action" : "set_bookmark",
+              "frame" : "{{95, 34}, {80, 32}}",
+              "title" : "📖",
+              "class" : "Button",
+              "uuid" : "A7FC16A7-ED96-4036-A338-0CB68AB3EF42",
+              "corner_radius" : 0,
+              "border_color" : "RGBA(0.269663,0.269663,0.269663,1.000000)",
+              "font_size" : 40,
+              "name" : "bt_bookmark"
+            }
+          },
+          {
+            "selected" : false,
+            "frame" : "{{156, 10}, {46, 40}}",
+            "class" : "Button",
+            "nodes" : [
+
+            ],
+            "attributes" : {
+              "border_width" : 0,
+              "flex" : "WLRTB",
+              "frame" : "{{95, 34}, {80, 32}}",
+              "title" : "⭐︎",
+              "class" : "Button",
+              "uuid" : "A7FC16A7-ED96-4036-A338-0CB68AB3EF42",
+              "corner_radius" : 0,
+              "border_color" : "RGBA(0.269663,0.269663,0.269663,1.000000)",
+              "font_size" : 40,
+              "name" : "button1"
+            }
+          },
+          {
+            "selected" : false,
+            "frame" : "{{210, 10}, {46, 40}}",
+            "class" : "Button",
+            "nodes" : [
+
+            ],
+            "attributes" : {
+              "border_width" : 0,
+              "flex" : "WLRTB",
+              "action" : "send_event",
+              "frame" : "{{95, 34}, {80, 32}}",
+              "title" : "📤",
+              "class" : "Button",
+              "uuid" : "A7FC16A7-ED96-4036-A338-0CB68AB3EF42",
+              "corner_radius" : 0,
+              "border_color" : "RGBA(0.269663,0.269663,0.269663,1.000000)",
+              "font_size" : 40,
+              "name" : "button1"
+            }
+          }
+        ],
+        "attributes" : {
+          "border_width" : 0,
+          "flex" : "WT",
+          "frame" : "{{85, 190}, {100, 100}}",
+          "title" : "📖",
+          "uuid" : "859DE779-C6C0-430C-B38E-AE68672203EA",
+          "class" : "View",
+          "corner_radius" : 0,
+          "background_color" : "RGBA(0.019507,0.468165,0.404071,1.000000)",
+          "name" : "editview",
+          "font_size" : 15
+        }
+      },
+      {
+        "selected" : false,
+        "frame" : "{{210, 20}, {60, 40}}",
+        "class" : "Button",
+        "nodes" : [
+
+        ],
+        "attributes" : {
+          "action" : "invert_edit",
+          "flex" : "LB",
+          "frame" : "{{95, 224}, {80, 32}}",
+          "title" : "🛠",
+          "class" : "Button",
+          "uuid" : "0785609C-7CD7-4EFB-9A1D-BC7717F8E459",
+          "font_size" : 40,
+          "name" : "bt_edit"
+        }
+      },
+      {
+        "selected" : false,
+        "frame" : "{{150, 20}, {60, 40}}",
+        "class" : "Button",
+        "nodes" : [
+
+        ],
+        "attributes" : {
+          "action" : "all_delete",
+          "flex" : "LB",
+          "frame" : "{{95, 224}, {80, 32}}",
+          "title" : "🗑",
+          "class" : "Button",
+          "uuid" : "0785609C-7CD7-4EFB-9A1D-BC7717F8E459",
+          "font_size" : 40,
+          "name" : "bt_alldelete"
+        }
+      }
+    ],
+    "attributes" : {
+      "custom_class" : "",
+      "enabled" : true,
+      "background_color" : "RGBA(1.000000,1.000000,1.000000,1.000000)",
+      "tint_color" : "RGBA(0.000000,0.478000,1.000000,1.000000)",
+      "border_color" : "RGBA(0.000000,0.000000,0.000000,1.000000)",
+      "flex" : ""
+    }
+  }
+]
